@@ -20,18 +20,18 @@ class NewUser : Serializable {
     @JsonProperty("password")
     var password: String? = null
 
-    @JsonProperty("recapctha_token")
-    var recaptchaToken: String? = null
+    //@JsonProperty("recapctha_token")
+    //var recaptchaToken: String? = null
 
     constructor() {}
 
-    constructor(username: String, firstName: String, lastName: String, email: String, password: String, recaptchaToken: String) {
+    constructor(username: String, firstName: String, lastName: String, email: String, password: String, /*recaptchaToken: String*/) {
         this.username = username
         this.firstName = firstName
         this.lastName = lastName
         this.email = email
         this.password = password
-        this.recaptchaToken = recaptchaToken
+        //this.recaptchaToken = recaptchaToken
     }
 
     companion object {

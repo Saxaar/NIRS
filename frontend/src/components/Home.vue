@@ -1,16 +1,15 @@
 <template>
     <div div="home">
         <b-jumbotron>
-        <template slot="header">Kotlin + Spring Boot + Vue.js</template>
+        <template slot="header">Добро пожаловать</template>
 
         <template slot="lead">
-          This is the demo web-application written in Kotlin using Spring Boot and Vue.js for frontend
         </template>
 
         <hr class="my-4" />
 
         <p v-if="!this.$store.getters.isAuthenticated">
-          Login and start
+          Вход
         </p>
 
         <router-link to="/login" v-if="!this.$store.getters.isAuthenticated">

@@ -52,29 +52,23 @@ class AuthController() {
     @Autowired
     lateinit var jwtProvider: JwtProvider
 
-    @Autowired
-    lateinit var captchaService: ReCaptchaService
 
     @PostMapping("/signin")
     fun authenticateUser(@Valid @RequestBody loginRequest: LoginUser): ResponseEntity<*> {
 
         val userCandidate: Optional <User> = userRepository.findByUsername(loginRequest.username!!)
 
-        if (!captchaService.validateCaptcha(loginRequest.recaptchaToken!!)) {
-            return ResponseEntity(ResponseMessage("Validation failed (ReCaptcha v2)"),
-                    HttpStatus.BAD_REQUEST)
-        }
-        else if (userCandidate.isPresent) {
+        if (userCandidate.isPresent) {
             val user: User = userCandidate.get()
             val authentication = authenticationManager.authenticate(
-                    UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password))
+                UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password))
             SecurityContextHolder.getContext().setAuthentication(authentication)
             val jwt: String = jwtProvider.generateJwtToken(user.username!!)
             val authorities: List<GrantedAuthority> = user.roles!!.stream().map({ role -> SimpleGrantedAuthority(role.name)}).collect(Collectors.toList<GrantedAuthority>())
             return ResponseEntity.ok(JwtResponse(jwt, user.username, authorities))
         } else {
             return ResponseEntity(ResponseMessage("User not found!"),
-                    HttpStatus.BAD_REQUEST)
+                HttpStatus.BAD_REQUEST)
         }
     }
 
@@ -83,27 +77,24 @@ class AuthController() {
 
         val userCandidate: Optional <User> = userRepository.findByUsername(newUser.username!!)
 
-        if (!captchaService.validateCaptcha(newUser.recaptchaToken!!)) {
-            return ResponseEntity(ResponseMessage("Validation failed (ReCaptcha v2)"),
-                    HttpStatus.BAD_REQUEST)
-        } else if (!userCandidate.isPresent) {
+        if (!userCandidate.isPresent) {
             if (usernameExists(newUser.username!!)) {
                 return ResponseEntity(ResponseMessage("Username is already taken!"),
-                        HttpStatus.BAD_REQUEST)
+                    HttpStatus.BAD_REQUEST)
             } else if (emailExists(newUser.email!!)) {
                 return ResponseEntity(ResponseMessage("Email is already in use!"),
-                        HttpStatus.BAD_REQUEST)
+                    HttpStatus.BAD_REQUEST)
             }
 
             // Creating user's account
             val user = User(
-                    0,
-                    newUser.username!!,
-                    newUser.firstName!!,
-                    newUser.lastName!!,
-                    newUser.email!!,
-                    encoder.encode(newUser.password),
-                    true
+                0,
+                newUser.username!!,
+                newUser.firstName!!,
+                newUser.lastName!!,
+                newUser.email!!,
+                encoder.encode(newUser.password),
+                true
             )
             user!!.roles = Arrays.asList(roleRepository.findByName("ROLE_USER"))
 
@@ -112,7 +103,7 @@ class AuthController() {
             return ResponseEntity(ResponseMessage("User registered successfully!"), HttpStatus.OK)
         } else {
             return ResponseEntity(ResponseMessage("User already exists!"),
-                    HttpStatus.BAD_REQUEST)
+                HttpStatus.BAD_REQUEST)
         }
     }
 
