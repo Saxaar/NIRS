@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import com.kotlinspringvue.backend.repository.UserRepository
 import com.kotlinspringvue.backend.jpa.User
+import com.kotlinspringvue.backend.repository.PerfomanceRepository
 import com.kotlinspringvue.backend.web.response.ResponseMessage
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
@@ -21,15 +22,14 @@ class BackendController() {
 //    @Value("\${spring.mail.username}")
 //    lateinit var addressee: String
 
+//    @Autowired
+//    lateinit var emailService: EmailServiceImpl
+
     @Autowired
     lateinit var personRepository: PersonRepository
 
     @Autowired
     lateinit var userRepository: UserRepository
-
-
-//    @Autowired
-//    lateinit var emailService: EmailServiceImpl
 
     val counter = AtomicLong()
 
@@ -40,22 +40,20 @@ class BackendController() {
     @GetMapping("/persons")
     fun getPersons() = personRepository.findAll()
 
-//    @GetMapping("/perfomances")
-//    fun getPerfomances() = perfomancesRepository.findAll()
-
     @GetMapping("/usercontent")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @ResponseBody
-    fun getUserContent(authentication: Authentication): String {
+    fun getUserContent(authentication: Authentication): User {
         val user: User = userRepository.findByUsername(authentication.name).get()
-        return "Hello " + user.firstName + " " + user.lastName + "!"
+        return user
     }
 
     @GetMapping("/admincontent")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
-    fun getAdminContent(): String {
-        return "Admin's content"
+    fun getAdminContent(authentication: Authentication): User {
+        val user: User = userRepository.findByUsername(authentication.name).get()
+        return user
     }
 
     @GetMapping("/sendSimpleEmail")

@@ -16,11 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 
 import com.kotlinspringvue.backend.model.LoginUser
 import com.kotlinspringvue.backend.model.NewUser
@@ -31,6 +26,7 @@ import com.kotlinspringvue.backend.repository.UserRepository
 import com.kotlinspringvue.backend.repository.RoleRepository
 import com.kotlinspringvue.backend.jwt.JwtProvider
 import com.kotlinspringvue.backend.service.ReCaptchaService
+import org.springframework.web.bind.annotation.*
 
 @CrossOrigin(origins = ["*"], maxAge = 3600)
 @RestController
@@ -105,6 +101,14 @@ class AuthController() {
             return ResponseEntity(ResponseMessage("User already exists!"),
                 HttpStatus.BAD_REQUEST)
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    fun deleteById(@PathVariable(value = "id") id: Long): ResponseEntity<Void> {
+        return userRepository.findById(id).map {
+            userRepository.delete(it)
+            ResponseEntity<Void>(HttpStatus.OK)
+        }.orElse(ResponseEntity.notFound().build())
     }
 
     private fun emailExists(email: String): Boolean {
