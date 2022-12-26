@@ -163,12 +163,15 @@
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
-									<directory>${project.parent.basedir}/frontend/target/dist</directory>
+									<directory>${project.parent.basedir}/frontend-new/build</directory>
 									<includes>
 										<include>static/</include>
 										<include>index.html</include>
 										<include>favicon.ico</include>
+										<include>logo192.png</include>
+										<include>logo512.png</include>
 									</includes>
+									<directory>${project.parent.basedir}/frontend-new/yarn/dist</directory>
 								</resource>
 							</resources>
 						</configuration>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>frontend</artifactId>
+	<artifactId>frontend-new</artifactId>
 
 	<parent>
 		<groupId>com.kotlin-spring-vue</groupId>
@@ -25,19 +25,20 @@
 				<executions>
 					<!-- Install our node and npm version to run npm/node scripts-->
 					<execution>
-						<id>install node and npm</id>
+						<id>install node and yarn</id>
 						<goals>
-							<goal>install-node-and-npm</goal>
+							<goal>install-node-and-yarn</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v11.8.0</nodeVersion>
+							<nodeVersion>v14.17.3</nodeVersion>
+							<yarnVersion>v1.22.19</yarnVersion>
 						</configuration>
 					</execution>
 					<!-- Install all project dependencies -->
 					<execution>
-						<id>npm install</id>
+						<id>yarn install</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<!-- optional: default phase is "generate-resources" -->
 						<phase>generate-resources</phase>
@@ -48,12 +49,12 @@
 					</execution>
 					<!-- Build and minify static files -->
 					<execution>
-						<id>npm run build</id>
+						<id>yarn build</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>build</arguments>
             			</configuration>
 					</execution>
 				</executions>

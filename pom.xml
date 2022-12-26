@@ -13,7 +13,7 @@
     <description>Kotlin + Spring Boot + Vue.js</description>
 
     <modules>
-        <module>frontend</module>
+        <module>frontend-new</module>
         <module>backend</module>
     </modules>
 

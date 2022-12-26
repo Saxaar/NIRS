@@ -1,4 +1,4 @@
-const server = "http://192.168.1.101:8080/"
+const server = "http://localhost:8080/"
 
 async function loginUser(credentials) {
     return fetch(server + 'api/auth/signin', {
