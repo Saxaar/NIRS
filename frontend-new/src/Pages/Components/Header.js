@@ -15,18 +15,28 @@ import TheaterComedy from '@mui/icons-material/TheaterComedy';
 
 import { Link } from 'react-router-dom';
 import useToken from '../../useToken';
+import { getUserData } from '../../api';
 
-const pagesUser = ['Выступления', 'Актеры'];
-const pagesAdmin = ['Выступления', 'Актеры', 'Клиенты', 'Заказы'];
+const pagesUser = ['Выступления'];
+const pagesAdmin = ['Выступления', 'Клиенты', 'Заказы'];
+const pagesLinks = ['/events', '/clients', '/orders'];
+
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['/', '/logout']
 
 function Header() {
-  const { isAdmin } = useToken();
+  const { token, isAdmin } = useToken();
   var pages = isAdmin ? pagesAdmin : pagesUser;
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [nameLetter, setNameLetter] = React.useState("");
+
+  React.useEffect(() => {
+    getUserData(token).then((res) => {
+        setNameLetter(res.firstName.toUpperCase());
+    })
+  }, [token]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -77,10 +87,12 @@ function Header() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
+                <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'white' }}>
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -104,7 +116,8 @@ function Header() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
+              <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'white' }}>
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -112,13 +125,14 @@ function Header() {
               >
                 {page}
               </Button>
+              </Link>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="A" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={nameLetter} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

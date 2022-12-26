@@ -22,4 +22,26 @@ async function signupUser(credentials) {
         .then(data => data.json())
 }
 
-export { loginUser, signupUser }
+async function getUserData(token) {
+    return fetch(server + 'api/usercontent', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+        .then(data => data.json())
+}
+
+async function getEventsData(token) {
+    return fetch(server + 'api/addPerfomance/perfomances', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+        .then(data => data.json())
+}
+
+export { loginUser, signupUser, getUserData, getEventsData }

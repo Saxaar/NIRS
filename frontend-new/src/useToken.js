@@ -13,8 +13,15 @@ export default function useToken() {
     return userToken?.isAdmin;
   };
 
+  const getUser = async () => {
+    const userString = localStorage.getItem('user');
+    const userData = JSON.parse(userString);
+    return userData?.user;
+  };
+
   const [token, setToken] = useState(getToken());
   const [isAdmin, setAdmin] = useState(getAdmin());
+  const [user, setUser] = useState(getUser());
 
   const saveToken = userToken => {
     localStorage.setItem('token', JSON.stringify(userToken));
@@ -22,9 +29,16 @@ export default function useToken() {
     setAdmin(userToken.isAdmin);
   };
 
+  const saveUser = userData => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData.user)
+  }
+
   return {
     setToken: saveToken,
     token,
-    isAdmin
+    isAdmin,
+    user,
+    setUser: saveUser
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import { Profile, SignIn, SignUp, Logout } from './Pages';
+import { Profile, SignIn, SignUp, Logout, Events } from './Pages';
 import useToken from './useToken';
 
 export default function App() {
@@ -19,6 +19,7 @@ export default function App() {
             <React.Fragment>
                 <Route path="/" element={<Profile/>} />
                 <Route path="/logout" element={<Logout/>} />
+                <Route path="/events" element={<Events/>} />
             </React.Fragment>
         )}
       </Routes>
