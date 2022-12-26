@@ -7,7 +7,7 @@
       <router-link to="/admin" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated && this.$store.getters.isAdmin">Админ</router-link>
       <router-link to="/email" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated">Email</router-link>
       <router-link to="/register" class="nav-link text-light" v-if="!this.$store.getters.isAuthenticated">Регистрация</router-link>
-      <router-link to="/user" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated">Выступления</router-link>
+      <router-link to="/perfomances" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated">Выступления</router-link>
       <router-link to="/user" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated">Актеры</router-link>
       <router-link to="/user" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated && this.$store.getters.isAdmin">Клиенты</router-link>
       <router-link to="/user" class="nav-link text-light" v-if="this.$store.getters.isAuthenticated">Заказы</router-link>
