@@ -13,7 +13,7 @@ export default function App() {
         {!token ? (
             <React.Fragment>
                 <Route path="/" element={<SignIn/>} />
-                <Route path="/signup" element={<SignUp/>} />
+                <Route path="/signup1" element={<SignUp/>} />
             </React.Fragment>
         ) : (
             <React.Fragment>

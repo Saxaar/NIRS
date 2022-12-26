@@ -104,7 +104,7 @@ export default function SignIn() {
                 <Grid container>
                     <Grid item xs/>
                     <Grid item>
-                    <Link href="/signup" variant="body2">
+                    <Link href="/signup1" variant="body2">
                         {"Нет аккаунта? Зарегистрироваться"}
                     </Link>
                     </Grid>
