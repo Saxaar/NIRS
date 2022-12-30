@@ -50,7 +50,7 @@ export default function EventDialog(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Создать новое мероприятие</DialogTitle>
+        <DialogTitle>{isEdit ? "Обновить мероприятие" : "Создать новое мероприятие"}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -68,7 +68,7 @@ export default function EventDialog(props) {
             inputFormat="DD/MM/YYYY"
             value={eventDate}
             onChange={setEventDate}
-            renderInput={(params) => <TextField sx={{ mt: 4 }} {...params} />}
+            renderInput={(params) => <TextField sx={{ mt: 3, mb: 2 }} {...params} />}
           />
           <TextField
             autoFocus

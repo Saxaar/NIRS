@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function OrderDialog(props) {
 
-    const { onClose, createOrder, open } = props;
+    const { onClose, createOrder, open , isEdit, editObject} = props;
     const [orderName, setOrderName] = React.useState("");
     const [orderDate, setOrderDate] = React.useState(dayjs());
     const [orderDescription, setOrderDescription] = React.useState("");
@@ -33,15 +33,24 @@ export default function OrderDialog(props) {
             customerFullName: orderName,
             date: orderDate.format('YYYY-MM-DD'),
             description: orderDescription,
-            price: orderPrice
+            price: orderPrice,
+            id: isEdit ? editObject.id : undefined
         });
         handleClose();
     };
 
+    React.useEffect(() => {
+        if (isEdit !== true) return;
+        setOrderName(editObject.customerFullName);
+        setOrderDate(dayjs(editObject.date));
+        setOrderDescription(editObject.description);
+        setOrderPrice(editObject.price);
+      }, [open, isEdit, editObject]);
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Dialog onClose={handleClose} open={open}>
-                <DialogTitle>Создать новый заказ</DialogTitle>
+                <DialogTitle>{isEdit ? "Обновить заказ" : "Создать новый заказ"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -59,7 +68,7 @@ export default function OrderDialog(props) {
                         inputFormat="DD/MM/YYYY"
                         value={orderDate}
                         onChange={setOrderDate}
-                        renderInput={(params) => <TextField sx={{ mt: 4 }} {...params} />}
+                        renderInput={(params) => <TextField sx={{ mt: 3, mb: 2 }} {...params} />}
                     />
                     <TextField
                         autoFocus
@@ -86,7 +95,7 @@ export default function OrderDialog(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => handleCreateDialog()} variant="contained" endIcon={<SendIcon />}>
-                        Создать
+                        {isEdit ? "Обновить" : "Создать"}
                     </Button>
                 </DialogActions>
             </Dialog>
