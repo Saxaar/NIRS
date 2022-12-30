@@ -69,7 +69,7 @@ export default function Orders() {
                                 {orderData.customerFullName}
                             </Typography>
                             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                До {new Date(orderData.date).toLocaleDateString()}
+                                {new Date(orderData.date).toLocaleDateString()}
                             </Typography>
                             <Typography variant="body2">
                                 {orderData.description}

@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function EventDialog(props) {
 
-  const { onClose, createEvent, open } = props;
+  const { onClose, createEvent, open, isEdit, editEvent } = props;
   const [eventName, setEventName] = React.useState("");
   const [eventDate, setEventDate] = React.useState(dayjs());
   const [managerName, setManagerName] = React.useState("");
@@ -33,10 +33,19 @@ export default function EventDialog(props) {
       name: eventName,
       date: eventDate.format('YYYY-MM-DD'),
       managerFullName: managerName,
-      phoneNumber: managerPhohe
+      phoneNumber: managerPhohe,
+      id: isEdit ? editEvent.id : undefined
     });
     handleClose();
   };
+
+  React.useEffect(() => {
+    if (isEdit !== true) return;
+    setEventName(editEvent.name);
+    setEventDate(dayjs(editEvent.date));
+    setManagerName(editEvent.managerFullName);
+    setManagerPhone(editEvent.phoneNumber);
+  }, [open, isEdit, editEvent]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -86,7 +95,7 @@ export default function EventDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => handleCreateEvent()} variant="contained" endIcon={<SendIcon />}>
-            Создать
+            {isEdit ? "Обновить" : "Создать"}
           </Button>
         </DialogActions>
       </Dialog>
