@@ -88,7 +88,7 @@ function Header() {
               }}
             >
               {pages.map((page, index) => (
-                <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'white' }}>
+                <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'black' }}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -113,7 +113,6 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (

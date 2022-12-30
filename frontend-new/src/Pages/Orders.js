@@ -11,35 +11,35 @@ import IconButton from '@mui/material/IconButton';
 
 import useToken from '../useToken';
 import Header from './Components/Header';
-import { getActorsData, createActor, deleteActor } from '../api';
-import ActorDialog from './Components/ActorDialog';
+import { getOrdersData, createOrder, deleteOrder } from '../api';
+import OrderDialog from './Components/OrderDialog';
 import AproveDialog from './Components/AproveDialog';
 
-export default function Actors() {
+export default function Orders() {
     const { token, isAdmin } = useToken();
-    const [actors, createActors] = React.useState([]);
+    const [orders, setOrders] = React.useState([]);
     const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
     const [aproveDialogOpen, setAproveDialogOpen] = React.useState(false);
-    const [actorDeletion, setActorDeletion] = React.useState(0);
+    const [orderDeletion, setOrderDeletion] = React.useState(0);
 
-    const handleCreateActor = (actorData) => {
-        createActor(actorData, token).then((_) => updateActors(token));
+    const handleCreateOrder = (orderData) => {
+        createOrder(orderData, token).then((_) => updateOrders(token));
     };
 
-    const handleDeleteActor = () => {
-        deleteActor(actorDeletion, token).then((_) => updateActors(token));
+    const handleDeleteOrder = () => {
+        deleteOrder(orderDeletion, token).then((_) => updateOrders(token));
         setAproveDialogOpen(false);
     };
 
-    const updateActors = () => {
-        getActorsData(token).then((res) => {
-            createActors(res);
+    const updateOrders = () => {
+        getOrdersData(token).then((res) => {
+            setOrders(res);
         });
     };
 
     React.useEffect(() => {
-        getActorsData(token).then((res) => {
-            createActors(res);
+        getOrdersData(token).then((res) => {
+            setOrders(res);
             console.log(res);
         });
     }, [token]);
@@ -48,12 +48,12 @@ export default function Actors() {
         <React.Fragment>
             <Header />
             <Container sx={{ mt: 5 }} component="main" maxWidth="lg">
-                {actors.map((actorData) => {
+                {orders.map((orderData) => {
                     return <Card sx={{ minWidth: 275, mt: 3, position: 'relative' }}>
                         {isAdmin ? <CardHeader
                             action={
                                 <IconButton onClick={() => {
-                                    setActorDeletion(actorData.id);
+                                    setOrderDeletion(orderData.id);
                                     setAproveDialogOpen(true);
                                 }} aria-label="settings">
                                     <CloseIcon />
@@ -63,15 +63,19 @@ export default function Actors() {
                         /> : null}
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Актёр
+                                Заказ
                             </Typography>
-                            <Typography sx={{ mb: 3 }} variant="h5" component="div">
-                                {actorData.firstName} {actorData.lastName}
+                            <Typography variant="h5" component="div">
+                                {orderData.customerFullName}
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                До {new Date(orderData.date).toLocaleDateString()}
                             </Typography>
                             <Typography variant="body2">
-                                <a href={"mailto:" + actorData.email}>{actorData.email}</a>
-                                <br />
-                                <a href={"tel:" + actorData.phoneNumber}>{actorData.phoneNumber}</a>
+                                {orderData.description}
+                            </Typography>
+                            <Typography sx={{mt: 1}} variant="body2">
+                                <b>Стоимость: {orderData.price} руб.</b>
                             </Typography>
                         </CardContent>
                     </Card>
@@ -79,16 +83,16 @@ export default function Actors() {
                 {isAdmin ? <Fab onClick={() => setCreateDialogOpen(true)} sx={{ mt: 3, mb: 3 }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab> : null}
-                <ActorDialog
+                <OrderDialog
                     open={createDialogOpen}
                     onClose={() => setCreateDialogOpen(false)}
-                    createActor={handleCreateActor}
+                    createOrder={handleCreateOrder}
                 />
                 <AproveDialog
                     open={aproveDialogOpen}
                     onClose={() => setAproveDialogOpen(false)}
-                    onAprove={handleDeleteActor}
-                    text="Вы точно хотите удалить актёра?"
+                    onAprove={handleDeleteOrder}
+                    text="Вы точно хотите удалить заказ?"
                 />
             </Container>
         </React.Fragment>
