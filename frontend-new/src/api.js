@@ -1,4 +1,4 @@
-const server = "http://localhost:8080/"
+const server = "http://192.168.1.101:8080/"
 
 async function loginUser(credentials) {
     return fetch(server + 'api/auth/signin', {
@@ -44,4 +44,26 @@ async function getEventsData(token) {
         .then(data => data.json())
 }
 
-export { loginUser, signupUser, getUserData, getEventsData }
+async function createEvent(eventData, token) {
+    return fetch(server + 'api/addPerfomance/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        },
+        body: JSON.stringify(eventData)
+    })
+        .then(data => data.json())
+}
+
+async function deleteEvent(eventId, token) {
+    return fetch(server + `api/addPerfomance/delete/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+}
+
+export { loginUser, signupUser, getUserData, getEventsData, createEvent, deleteEvent }
