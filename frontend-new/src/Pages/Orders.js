@@ -93,6 +93,8 @@ export default function Orders() {
                                 {orderData.description}
                             </Typography>
                             <Typography sx={{mt: 1}} variant="body2">
+                                Место: {orderData.placeNumber}
+                                <br/>
                                 <b>Стоимость: {orderData.price} руб.</b>
                             </Typography>
                         </CardContent>

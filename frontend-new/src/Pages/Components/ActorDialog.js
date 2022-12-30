@@ -19,11 +19,15 @@ export default function ActorDialog(props) {
 
     const handleClose = () => {
         onClose();
+        resetForm();
+    };
+
+    const resetForm = () => {
         setActorName("");
         setActorLastName("");
         setActorEmail("");
         setActorPhone("");
-    };
+    }
 
     const handleCreateActor = () => {
         createActor({
@@ -37,7 +41,10 @@ export default function ActorDialog(props) {
     };
 
     React.useEffect(() => {
-        if (isEdit !== true) return;
+        if (isEdit !== true) {
+            resetForm();
+            return;
+        };
         setActorName(editObject.firstName);
         setActorLastName(editObject.lastName);
         setActorEmail(editObject.email);

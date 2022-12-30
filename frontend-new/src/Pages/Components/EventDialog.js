@@ -22,11 +22,15 @@ export default function EventDialog(props) {
 
   const handleClose = () => {
     onClose();
+    resetForm();
+  };
+
+  const resetForm = () => {
     setEventName("");
     setEventDate(dayjs());
     setManagerName("");
     setManagerPhone("");
-  };
+  }
 
   const handleCreateEvent = () => {
     createEvent({
@@ -40,7 +44,10 @@ export default function EventDialog(props) {
   };
 
   React.useEffect(() => {
-    if (isEdit !== true) return;
+    if (isEdit !== true) {
+      resetForm();
+      return;
+  };
     setEventName(editEvent.name);
     setEventDate(dayjs(editEvent.date));
     setManagerName(editEvent.managerFullName);

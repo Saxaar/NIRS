@@ -18,21 +18,27 @@ export default function OrderDialog(props) {
     const [orderName, setOrderName] = React.useState("");
     const [orderDate, setOrderDate] = React.useState(dayjs());
     const [orderDescription, setOrderDescription] = React.useState("");
+    const [orderSeat, setOrderSeat] = React.useState(1);
     const [orderPrice, setOrderPrice] = React.useState("");
 
     const handleClose = () => {
         onClose();
+        resetForm();
+    };
+
+    const resetForm = () => {
         setOrderName("");
         setOrderDate(dayjs());
         setOrderDescription("");
         setOrderPrice("");
-    };
+    }
 
     const handleCreateDialog = () => {
         createOrder({
             customerFullName: orderName,
             date: orderDate.format('YYYY-MM-DD'),
             description: orderDescription,
+            placeNumber: orderSeat,
             price: orderPrice,
             id: isEdit ? editObject.id : undefined
         });
@@ -40,7 +46,10 @@ export default function OrderDialog(props) {
     };
 
     React.useEffect(() => {
-        if (isEdit !== true) return;
+        if (isEdit !== true) {
+            resetForm();
+            return;
+        };
         setOrderName(editObject.customerFullName);
         setOrderDate(dayjs(editObject.date));
         setOrderDescription(editObject.description);
@@ -68,7 +77,7 @@ export default function OrderDialog(props) {
                         inputFormat="DD/MM/YYYY"
                         value={orderDate}
                         onChange={setOrderDate}
-                        renderInput={(params) => <TextField sx={{ mt: 3, mb: 2 }} {...params} />}
+                        renderInput={(params) => <TextField sx={{ mt: 3, mb: 1 }} {...params} />}
                     />
                     <TextField
                         autoFocus
@@ -85,10 +94,23 @@ export default function OrderDialog(props) {
                         autoFocus
                         margin="dense"
                         id="name"
+                        label="Место"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                        value={orderPrice}
+                        onChange={(e) => setOrderSeat(e.target.value)}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
                         label="Стоимость"
                         type="text"
                         fullWidth
                         variant="standard"
+                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                         value={orderPrice}
                         onChange={(e) => setOrderPrice(e.target.value)}
                     />
