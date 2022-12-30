@@ -23,7 +23,7 @@ data class Order (
     var date:String? = null,
 
     @Column(name = "place_number")
-    var placeNumber:String? = null,
+    var placeNumber:Integer? = null,
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
