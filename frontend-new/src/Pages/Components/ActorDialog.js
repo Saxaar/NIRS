@@ -11,7 +11,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 export default function ActorDialog(props) {
 
-    const { onClose, createActor, open } = props;
+    const { onClose, createActor, open, isEdit, editObject } = props;
     const [actorName, setActorName] = React.useState("");
     const [actorLastName, setActorLastName] = React.useState("");
     const [actorEmail, setActorEmail] = React.useState("");
@@ -30,14 +30,23 @@ export default function ActorDialog(props) {
             firstName: actorName,
             lastName: actorLastName,
             email: actorEmail,
-            phoneNumber: actorPhone
+            phoneNumber: actorPhone,
+            id: isEdit ? editObject.id : undefined
         });
         handleClose();
     };
 
+    React.useEffect(() => {
+        if (isEdit !== true) return;
+        setActorName(editObject.firstName);
+        setActorLastName(editObject.lastName);
+        setActorEmail(editObject.email);
+        setActorPhone(editObject.phoneNumber);
+      }, [open, isEdit, editObject]);
+
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Добавить нового актёра</DialogTitle>
+            <DialogTitle>{isEdit ? "Обновить актёра" : "Добавить нового актёра"}</DialogTitle>
             <DialogContent>
                 <Grid container spacing={2}>
                     <Grid item>
@@ -92,7 +101,7 @@ export default function ActorDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => handleCreateActor()} variant="contained" endIcon={<SendIcon />}>
-                    Добавить
+                    {isEdit ? "Обновить" : "Добавить"}
                 </Button>
             </DialogActions>
         </Dialog>

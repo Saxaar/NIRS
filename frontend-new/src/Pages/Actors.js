@@ -7,24 +7,33 @@ import Typography from '@mui/material/Typography';
 import Fab from '@mui/material/Fab';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 
 import useToken from '../useToken';
 import Header from './Components/Header';
-import { getActorsData, createActor, deleteActor } from '../api';
+import { getActorsData, createActor, deleteActor, updateActor } from '../api';
 import ActorDialog from './Components/ActorDialog';
 import AproveDialog from './Components/AproveDialog';
 
 export default function Actors() {
     const { token, isAdmin } = useToken();
     const [actors, createActors] = React.useState([]);
+
     const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
+    const [createIsEdit, setCreateIsEdit] = React.useState(false);
+    const [editIndex, setEditIndex] = React.useState(0);
+
     const [aproveDialogOpen, setAproveDialogOpen] = React.useState(false);
     const [actorDeletion, setActorDeletion] = React.useState(0);
 
     const handleCreateActor = (actorData) => {
         createActor(actorData, token).then((_) => updateActors(token));
     };
+
+    const handleUpdateActor = (actorData) => {
+        updateActor(actorData, token).then((_) => updateActors(token));
+    }
 
     const handleDeleteActor = () => {
         deleteActor(actorDeletion, token).then((_) => updateActors(token));
@@ -48,16 +57,25 @@ export default function Actors() {
         <React.Fragment>
             <Header />
             <Container sx={{ mt: 5 }} component="main" maxWidth="lg">
-                {actors.map((actorData) => {
+                {actors.map((actorData, index) => {
                     return <Card sx={{ minWidth: 275, mt: 3, position: 'relative' }}>
                         {isAdmin ? <CardHeader
                             action={
+                                <React.Fragment>
+                                <IconButton onClick={() => {
+                                    setCreateIsEdit(true);
+                                    setEditIndex(index);
+                                    setCreateDialogOpen(true);
+                                }} aria-label="edit">
+                                    <EditIcon />
+                                </IconButton>
                                 <IconButton onClick={() => {
                                     setActorDeletion(actorData.id);
                                     setAproveDialogOpen(true);
-                                }} aria-label="settings">
+                                }} aria-label="delete">
                                     <CloseIcon />
                                 </IconButton>
+                                </React.Fragment>
                             }
                             sx={{ position: 'absolute', right: 0 }}
                         /> : null}
@@ -76,13 +94,18 @@ export default function Actors() {
                         </CardContent>
                     </Card>
                 })}
-                {isAdmin ? <Fab onClick={() => setCreateDialogOpen(true)} sx={{ mt: 3, mb: 3 }} color="primary" aria-label="add">
+                {isAdmin ? <Fab onClick={() => {
+                    setCreateIsEdit(false);
+                    setCreateDialogOpen(true);
+                }} sx={{ mt: 3, mb: 3 }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab> : null}
                 <ActorDialog
                     open={createDialogOpen}
                     onClose={() => setCreateDialogOpen(false)}
-                    createActor={handleCreateActor}
+                    createActor={createIsEdit ? handleUpdateActor : handleCreateActor}
+                    isEdit={createIsEdit}
+                    editObject={createIsEdit ? actors[editIndex] : undefined}
                 />
                 <AproveDialog
                     open={aproveDialogOpen}
