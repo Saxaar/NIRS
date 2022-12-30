@@ -6,7 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import MaterialLink from '@mui/material/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -104,8 +105,10 @@ export default function SignIn() {
                 <Grid container>
                     <Grid item xs/>
                     <Grid item>
-                    <Link href="/signup1" variant="body2">
-                        {"Нет аккаунта? Зарегистрироваться"}
+                    <Link to="/signup1" >
+    <MaterialLink variant="body2">
+    {"Нет аккаунта? Зарегистрироваться"}
+      </MaterialLink>
                     </Link>
                     </Grid>
                 </Grid>
