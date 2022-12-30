@@ -38,7 +38,8 @@ class OrderController {
             newOrder.price!!,
             newOrder.description!!,
             newOrder.customerFulLName!!,
-            newOrder.date!!
+            newOrder.date!!,
+            newOrder.placeNumber
         )
         orderRepository.save(order)
 
@@ -60,6 +61,7 @@ class OrderController {
         order.date = newOrder.date
         order.description = newOrder.description
         order.price = newOrder.price
+        order.placeNumber = newOrder.placeNumber
         return orderRepository.save(order)
     }
 

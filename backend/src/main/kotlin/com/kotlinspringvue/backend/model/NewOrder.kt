@@ -18,10 +18,14 @@ class NewOrder: Serializable {
     @JsonProperty("date")
     var date: String? = null
 
-    constructor(price: String?, description: String?, customerFulLName: String?,date: String?) {
+    @JsonProperty("placeNumber")
+    var placeNumber: String? = null
+
+    constructor(price: String?, description: String?, customerFulLName: String?,date: String?,placeNumber:String?) {
         this.price = price
         this.description = description
         this.customerFulLName = customerFulLName
         this.date = date
+        this.placeNumber = placeNumber
     }
 }

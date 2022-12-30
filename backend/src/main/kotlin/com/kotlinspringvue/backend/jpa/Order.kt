@@ -22,6 +22,8 @@ data class Order (
     @Column(name = "date")
     var date:String? = null,
 
+    @Column(name = "place_number")
+    var placeNumber:String? = null,
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
