@@ -1,7 +1,9 @@
 package com.kotlinspringvue.backend.controller
 
+import com.kotlinspringvue.backend.jpa.Order
 import com.kotlinspringvue.backend.jpa.Perfomance
 import com.kotlinspringvue.backend.jwt.JwtProvider
+import com.kotlinspringvue.backend.model.NewOrder
 import com.kotlinspringvue.backend.model.NewPerfomance
 import com.kotlinspringvue.backend.repository.PerfomanceRepository
 import com.kotlinspringvue.backend.web.response.ResponseMessage
@@ -41,6 +43,15 @@ class PerfomanceController {
             perfomanceRepository.delete(it)
             ResponseEntity<Void>(HttpStatus.OK)
         }.orElse(ResponseEntity.notFound().build())
+    }
+    @PutMapping("/update/{id}")
+    fun updateById(@Valid @RequestBody newPerfomanceRequest: NewPerfomance, @PathVariable(value = "id") id: Long) : Perfomance {
+        val perfomance = perfomanceRepository.findById(id).get()
+        perfomance.date = newPerfomanceRequest.date
+        perfomance.managerFullName = newPerfomanceRequest.managerFullName
+        perfomance.phoneNumber = newPerfomanceRequest.phoneNumber
+        perfomance.name = newPerfomanceRequest.name
+        return perfomanceRepository.save(perfomance)
     }
 
     @PostMapping("/add")

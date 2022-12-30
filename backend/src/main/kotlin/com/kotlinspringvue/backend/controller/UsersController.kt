@@ -1,6 +1,8 @@
 package com.kotlinspringvue.backend.controller
 
+import com.kotlinspringvue.backend.jpa.Order
 import com.kotlinspringvue.backend.jpa.User
+import com.kotlinspringvue.backend.model.NewOrder
 import com.kotlinspringvue.backend.model.NewUser
 import com.kotlinspringvue.backend.repository.RoleRepository
 import com.kotlinspringvue.backend.repository.UserRepository
@@ -29,6 +31,16 @@ class UsersController {
 
     @GetMapping("/allUsers")
     fun getPersons() = userRepository.findAll()
+
+    @PutMapping("/update/{id}")
+    fun updateById(@Valid @RequestBody newUser: NewUser, @PathVariable(value = "id") id: Long) : User {
+        val user = userRepository.findById(id).get()
+        user.email = newUser.email
+        user.firstName = newUser.firstName
+        user.lastName = newUser.lastName
+        user.username = newUser.username
+        return userRepository.save(user)
+    }
 
     @PostMapping("/signup")
     fun registerUser(@Valid @RequestBody newUser: NewUser): ResponseEntity<*> {

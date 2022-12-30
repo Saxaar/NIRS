@@ -45,4 +45,23 @@ class OrderController {
         return ResponseEntity(ResponseMessage("Order added"),HttpStatus.OK)
     }
 
+    @DeleteMapping("/delete/{id}")
+    fun deleteById(@PathVariable(value = "id") id: Long): ResponseEntity<Void> {
+        return orderRepository.findById(id).map {
+            orderRepository.delete(it)
+            ResponseEntity<Void>(HttpStatus.OK)
+        }.orElse(ResponseEntity.notFound().build())
+    }
+
+    @PutMapping("/update/{id}")
+    fun updateById(@Valid @RequestBody newOrder: NewOrder , @PathVariable(value = "id") id: Long) : Order {
+        val order = orderRepository.findById(id).get()
+        order.customerFullName = newOrder.customerFulLName
+        order.date = newOrder.date
+        order.description = newOrder.description
+        order.price = newOrder.price
+        return orderRepository.save(order)
+    }
+
+
 }
