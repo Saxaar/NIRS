@@ -170,8 +170,20 @@
 										<include>favicon.ico</include>
 										<include>logo192.png</include>
 										<include>logo512.png</include>
+										<include>asset-manifest.json</include>
+										<include>manifest.json</include>
+										<include>robots.txt</include>
 									</includes>
-									<directory>${project.parent.basedir}/frontend-new/node/yarn/dist</directory>
+								</resource>
+								<resource>
+									<directory>${project.parent.basedir}/frontend-new/node</directory>
+									<include>yarn/</include>
+									<include>dist/</include>
+								</resource>
+								<resource>
+									<directory>${project.parent.basedir}/frontend-new/node_modules/</directory>
+									<include>.cahe/</include>
+									<include>.bin</include>
 								</resource>
 							</resources>
 						</configuration>
