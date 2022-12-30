@@ -11,35 +11,35 @@ import IconButton from '@mui/material/IconButton';
 
 import useToken from '../useToken';
 import Header from './Components/Header';
-import { getEventsData, createEvent, deleteEvent } from '../api';
-import EventDialog from './Components/EventDialog';
+import { getActorsData, createActor, deleteActor } from '../api';
+import ActorDialog from './Components/ActorDialog';
 import AproveDialog from './Components/AproveDialog';
 
-export default function Events() {
+export default function Actors() {
     const { token, isAdmin } = useToken();
-    const [events, setEvents] = React.useState([]);
+    const [actors, createActors] = React.useState([]);
     const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
     const [aproveDialogOpen, setAproveDialogOpen] = React.useState(false);
-    const [eventDeletion, setEventDeletion] = React.useState(0);
+    const [actorDeletion, setActorDeletion] = React.useState(0);
 
     const handleCreateEvent = (eventData) => {
-        createEvent(eventData, token).then((_) => updateEvents(token));
+        createActor(eventData, token).then((_) => updateEvents(token));
     };
 
     const handleDeleteEvent = () => {
-        deleteEvent(eventDeletion, token).then((_) => updateEvents(token));
+        deleteActor(actorDeletion, token).then((_) => updateEvents(token));
         setAproveDialogOpen(false);
     };
 
     const updateEvents = () => {
-        getEventsData(token).then((res) => {
-            setEvents(res);
+        getActorsData(token).then((res) => {
+            createActors(res);
         });
     };
 
     React.useEffect(() => {
-        getEventsData(token).then((res) => {
-            setEvents(res);
+        getActorsData(token).then((res) => {
+            createActors(res);
             console.log(res);
         });
     }, [token]);
@@ -48,12 +48,12 @@ export default function Events() {
         <React.Fragment>
             <Header />
             <Container sx={{ mt: 5 }} component="main" maxWidth="lg">
-                {events.map((eventData) => {
+                {actors.map((actorData) => {
                     return <Card sx={{ minWidth: 275, mt: 3, position: 'relative' }}>
                         {isAdmin ? <CardHeader
                             action={
                                 <IconButton onClick={() => {
-                                    setEventDeletion(eventData.id);
+                                    setActorDeletion(actorData.id);
                                     setAproveDialogOpen(true);
                                 }} aria-label="settings">
                                     <CloseIcon />
@@ -63,18 +63,15 @@ export default function Events() {
                         /> : null}
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                Театральное выступление
+                                Актёр
                             </Typography>
-                            <Typography variant="h5" component="div">
-                                {eventData.name}
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                {new Date(eventData.date).toLocaleDateString()}
+                            <Typography sx={{ mb: 3 }} variant="h5" component="div">
+                                {actorData.firstName} {actorData.lastName}
                             </Typography>
                             <Typography variant="body2">
-                                Контакт: {eventData.managerFullName}
+                                <a href={"mailto:" + actorData.email}>{actorData.email}</a>
                                 <br />
-                                <a href={"tel:" + eventData.phoneNumber}>{eventData.phoneNumber}</a>
+                                <a href={"tel:" + actorData.phoneNumber}>{actorData.phoneNumber}</a>
                             </Typography>
                         </CardContent>
                     </Card>
@@ -82,16 +79,16 @@ export default function Events() {
                 {isAdmin ? <Fab onClick={() => setCreateDialogOpen(true)} sx={{ mt: 3, mb: 3 }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab> : null}
-                <EventDialog
+                <ActorDialog
                     open={createDialogOpen}
                     onClose={() => setCreateDialogOpen(false)}
-                    createEvent={handleCreateEvent}
+                    createActor={handleCreateEvent}
                 />
                 <AproveDialog
                     open={aproveDialogOpen}
                     onClose={() => setAproveDialogOpen(false)}
                     onAprove={handleDeleteEvent}
-                    text="Вы точно хотите удалить мероприятие?"
+                    text="Вы точно хотите удалить актёра?"
                 />
             </Container>
         </React.Fragment>

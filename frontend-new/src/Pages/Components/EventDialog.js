@@ -22,70 +22,74 @@ export default function EventDialog(props) {
 
   const handleClose = () => {
     onClose();
+    setEventName("");
+    setEventDate(dayjs());
+    setManagerName("");
+    setManagerPhone("");
   };
 
   const handleCreateEvent = () => {
     createEvent({
-        name: eventName,
-        date: eventDate.format('YYYY-MM-DD'),
-        managerFullName: managerName,
-        phoneNumber: managerPhohe
+      name: eventName,
+      date: eventDate.format('YYYY-MM-DD'),
+      managerFullName: managerName,
+      phoneNumber: managerPhohe
     });
-    onClose();
+    handleClose();
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleClose} open={open}>
         <DialogTitle>Создать новое мероприятие</DialogTitle>
         <DialogContent>
-            <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Название"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-            />
-              <DesktopDatePicker
-                label="Дата"
-                inputFormat="DD/MM/YYYY"
-                value={eventDate}
-                onChange={setEventDate}
-                renderInput={(params) => <TextField sx={{mt: 4}} {...params} />}
-              />
-            <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="ФИО Организатора"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={managerName}
-                onChange={(e) => setManagerName(e.target.value)}
-            />
-            <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Номер телефона"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={managerPhohe}
-                onChange={(e) => setManagerPhone(e.target.value)}
-            />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Название"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+          />
+          <DesktopDatePicker
+            label="Дата"
+            inputFormat="DD/MM/YYYY"
+            value={eventDate}
+            onChange={setEventDate}
+            renderInput={(params) => <TextField sx={{ mt: 4 }} {...params} />}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="ФИО Организатора"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={managerName}
+            onChange={(e) => setManagerName(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Номер телефона"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={managerPhohe}
+            onChange={(e) => setManagerPhone(e.target.value)}
+          />
         </DialogContent>
         <DialogActions>
-            <Button onClick={() => handleCreateEvent()} variant="contained" endIcon={<SendIcon />}>
-                Создать
-            </Button>
+          <Button onClick={() => handleCreateEvent()} variant="contained" endIcon={<SendIcon />}>
+            Создать
+          </Button>
         </DialogActions>
-    </Dialog>
+      </Dialog>
     </LocalizationProvider>
   );
 }

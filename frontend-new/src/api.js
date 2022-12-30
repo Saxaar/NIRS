@@ -66,4 +66,37 @@ async function deleteEvent(eventId, token) {
     })
 }
 
-export { loginUser, signupUser, getUserData, getEventsData, createEvent, deleteEvent }
+async function getActorsData(token) {
+    return fetch(server + 'api/actors/allActors', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+        .then(data => data.json())
+}
+
+async function createActor(actorData, token) {
+    return fetch(server + 'api/actors/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        },
+        body: JSON.stringify(actorData)
+    })
+        .then(data => data.json())
+}
+
+async function deleteActor(actorId, token) {
+    return fetch(server + `api/actors/delete/${actorId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+}
+
+export { loginUser, signupUser, getUserData, getEventsData, createEvent, deleteEvent, getActorsData, createActor, deleteActor }

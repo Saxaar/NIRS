@@ -18,8 +18,8 @@ import useToken from '../../useToken';
 import { getUserData } from '../../api';
 
 const pagesUser = ['Выступления'];
-const pagesAdmin = ['Выступления', 'Клиенты', 'Заказы'];
-const pagesLinks = ['/events', '/clients', '/orders'];
+const pagesAdmin = ['Выступления', 'Актеры', 'Заказы'];
+const pagesLinks = ['/events', '/actors', '/orders'];
 
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['/', '/logout']
@@ -34,7 +34,7 @@ function Header() {
 
   React.useEffect(() => {
     getUserData(token).then((res) => {
-        setNameLetter(res.firstName.toUpperCase());
+      setNameLetter(res.firstName.toUpperCase());
     })
   }, [token]);
 
@@ -89,9 +89,9 @@ function Header() {
             >
               {pages.map((page, index) => (
                 <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'white' }}>
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
                 </Link>
               ))}
             </Menu>
@@ -118,13 +118,13 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page, index) => (
               <Link to={pagesLinks[index]} style={{ textDecoration: 'none', color: 'white' }}>
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
               </Link>
             ))}
           </Box>

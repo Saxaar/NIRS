@@ -17,15 +17,15 @@ export default function AproveDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>{text}</DialogTitle>
-        <DialogActions>
-            <IconButton onClick={onAprove} aria-label="close">
-                <CheckIcon />
-            </IconButton>
-            <IconButton onClick={onClose} aria-label="close">
-                <CloseIcon />
-            </IconButton>
-        </DialogActions>
+      <DialogTitle>{text}</DialogTitle>
+      <DialogActions>
+        <IconButton onClick={onAprove} aria-label="close">
+          <CheckIcon />
+        </IconButton>
+        <IconButton onClick={onClose} aria-label="close">
+          <CloseIcon />
+        </IconButton>
+      </DialogActions>
     </Dialog>
   );
 }
