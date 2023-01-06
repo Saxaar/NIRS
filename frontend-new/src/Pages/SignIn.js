@@ -31,7 +31,7 @@ export default function SignIn() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const username = data.get('email');
+        const username = data.get('username');
         const password = data.get('password');
 
         const token = await loginUser({
@@ -73,10 +73,10 @@ export default function SignIn() {
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="Электронная почта"
-                    name="email"
-                    autoComplete="email"
+                    id="username"
+                    label="Логин"
+                    name="username"
+                    autoComplete="username"
                     autoFocus
                 />
                 <TextField

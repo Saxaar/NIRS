@@ -29,7 +29,13 @@ export default function ActorDialog(props) {
         setActorPhone("");
     }
 
+    const validateForm = () => {
+        return (actorName === "" || actorLastName === "" || actorEmail === "" || actorPhone === "");
+    }
+
     const handleCreateActor = () => {
+        if (validateForm()) return;
+
         createActor({
             firstName: actorName,
             lastName: actorLastName,
@@ -67,6 +73,7 @@ export default function ActorDialog(props) {
                             variant="standard"
                             value={actorName}
                             onChange={(e) => setActorName(e.target.value)}
+                            required
                         />
                     </Grid>
                     <Grid item>
@@ -80,30 +87,33 @@ export default function ActorDialog(props) {
                             variant="standard"
                             value={actorLastName}
                             onChange={(e) => setActorLastName(e.target.value)}
+                            required
                         />
                     </Grid>
                 </Grid>
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
+                    id="email"
                     label="Эл. почта"
                     type="text"
                     fullWidth
                     variant="standard"
                     value={actorEmail}
                     onChange={(e) => setActorEmail(e.target.value)}
+                    required
                 />
                 <TextField
                     autoFocus
                     margin="dense"
-                    id="name"
+                    id="phone"
                     label="Номер телефона"
                     type="text"
                     fullWidth
                     variant="standard"
                     value={actorPhone}
                     onChange={(e) => setActorPhone(e.target.value)}
+                    required
                 />
             </DialogContent>
             <DialogActions>

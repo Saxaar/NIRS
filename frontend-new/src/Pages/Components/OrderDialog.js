@@ -30,10 +30,17 @@ export default function OrderDialog(props) {
         setOrderName("");
         setOrderDate(dayjs());
         setOrderDescription("");
+        setOrderSeat(1);
         setOrderPrice("");
     }
 
+    const validateForm = () => {
+        return (orderName === "" || orderDescription === "" || orderPrice === "");
+    }
+
     const handleCreateDialog = () => {
+        if (validateForm()) return;
+
         createOrder({
             customerFullName: orderName,
             date: orderDate.format('YYYY-MM-DD'),
@@ -53,6 +60,7 @@ export default function OrderDialog(props) {
         setOrderName(editObject.customerFullName);
         setOrderDate(dayjs(editObject.date));
         setOrderDescription(editObject.description);
+        setOrderSeat(editObject.placeNumber);
         setOrderPrice(editObject.price);
       }, [open, isEdit, editObject]);
 
@@ -71,13 +79,14 @@ export default function OrderDialog(props) {
                         variant="standard"
                         value={orderName}
                         onChange={(e) => setOrderName(e.target.value)}
+                        required
                     />
                     <DesktopDatePicker
                         label="Срок выполнения"
                         inputFormat="DD/MM/YYYY"
                         value={orderDate}
                         onChange={setOrderDate}
-                        renderInput={(params) => <TextField sx={{ mt: 3, mb: 1 }} {...params} />}
+                        renderInput={(params) => <TextField required sx={{ mt: 3, mb: 1 }} {...params} />}
                     />
                     <TextField
                         autoFocus
@@ -89,6 +98,7 @@ export default function OrderDialog(props) {
                         variant="standard"
                         value={orderDescription}
                         onChange={(e) => setOrderDescription(e.target.value)}
+                        required
                     />
                     <TextField
                         autoFocus
@@ -99,8 +109,9 @@ export default function OrderDialog(props) {
                         fullWidth
                         variant="standard"
                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                        value={orderPrice}
+                        value={orderSeat}
                         onChange={(e) => setOrderSeat(e.target.value)}
+                        required
                     />
                     <TextField
                         autoFocus
@@ -113,6 +124,7 @@ export default function OrderDialog(props) {
                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
                         value={orderPrice}
                         onChange={(e) => setOrderPrice(e.target.value)}
+                        required
                     />
                 </DialogContent>
                 <DialogActions>

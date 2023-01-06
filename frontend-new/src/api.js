@@ -33,6 +33,17 @@ async function getUserData(token) {
         .then(data => data.json())
 }
 
+async function getUsersData(token) {
+    return fetch(server + 'api/users/allUsers', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+        .then(data => data.json())
+}
+
 async function getEventsData(token) {
     return fetch(server + 'api/addPerfomance/perfomances', {
         method: 'GET',
@@ -169,7 +180,7 @@ async function deleteOrder(orderId, token) {
 }
 
 export { 
-    loginUser, signupUser, getUserData, 
+    loginUser, signupUser, getUserData, getUsersData,
     getEventsData, createEvent, updateEvent, deleteEvent, 
     getActorsData, createActor, updateActor, deleteActor,
     getOrdersData, createOrder, updateOrder, deleteOrder 

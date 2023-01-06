@@ -15,12 +15,14 @@ export default function Profile() {
     const [name, setName] = React.useState("");
     const [lastName, setLastName] = React.useState("");
     const [email, setEmail] = React.useState("");
+    const [username, setUsername] = React.useState("");
 
     React.useEffect(() => {
         getUserData(token).then((res) => {
             setName(res.firstName);
             setLastName(res.lastName);
             setEmail(res.email);
+            setUsername(res.username);
         })
     }, [token]);
 
@@ -32,6 +34,10 @@ export default function Profile() {
                 <List component="nav" aria-label="profile data">
                     <ListItem>
                         <ListItemText primary={`Имя: ${name} ${lastName}`} />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                        <ListItemText primary={`Логин: ${username}`} />
                     </ListItem>
                     <Divider />
                     <ListItem divider>

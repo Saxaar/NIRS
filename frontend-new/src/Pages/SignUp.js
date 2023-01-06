@@ -27,14 +27,15 @@ export default function SignUp() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const username = data.get('email');
+        const username = data.get('username');
+        const email = data.get('email');
         const password = data.get('password');
         const firstName = data.get('firstName');
         const lastName = data.get('lastName');
 
         const result = await signupUser({
             username,
-            email: username,
+            email,
             password,
             firstName,
             lastName
@@ -101,6 +102,16 @@ export default function SignUp() {
                   label="Фамилия"
                   name="lastName"
                   autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="Логин"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>

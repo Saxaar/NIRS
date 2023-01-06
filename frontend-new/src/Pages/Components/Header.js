@@ -18,8 +18,8 @@ import useToken from '../../useToken';
 import { getUserData } from '../../api';
 
 const pagesUser = ['Выступления'];
-const pagesAdmin = ['Выступления', 'Актеры', 'Заказы'];
-const pagesLinks = ['/events', '/actors', '/orders'];
+const pagesAdmin = ['Выступления', 'Актеры', 'Заказы', 'Клиенты'];
+const pagesLinks = ['/events', '/actors', '/orders', '/clients'];
 
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['/', '/logout']
