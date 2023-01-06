@@ -12,12 +12,13 @@ import IconButton from '@mui/material/IconButton';
 
 import useToken from '../useToken';
 import Header from './Components/Header';
-import { getOrdersData, createOrder, deleteOrder, updateOrder } from '../api';
+import { getOrdersData, createOrder, deleteOrder, updateOrder, getUserData, getUserOrdersData } from '../api';
 import OrderDialog from './Components/OrderDialog';
 import AproveDialog from './Components/AproveDialog';
 
 export default function Orders() {
     const { token, isAdmin } = useToken();
+    const [email, setEmail] = React.useState("");
     const [orders, setOrders] = React.useState([]);
 
     const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
@@ -28,6 +29,7 @@ export default function Orders() {
     const [orderDeletion, setOrderDeletion] = React.useState(0);
 
     const handleCreateOrder = (orderData) => {
+        orderData.customerEmail = email;
         createOrder(orderData, token).then((_) => updateOrders(token));
     };
 
@@ -41,17 +43,36 @@ export default function Orders() {
     };
 
     const updateOrders = () => {
-        getOrdersData(token).then((res) => {
-            setOrders(res);
-        });
+        if (isAdmin)
+        {
+            getOrdersData(token).then((res) => {
+                setOrders(res);
+            });
+        } else {
+            getUserOrdersData(token, email).then((orderRes) => {
+                setOrders(orderRes);
+                console.log(orderRes);
+            });
+        }
     };
 
     React.useEffect(() => {
-        getOrdersData(token).then((res) => {
-            setOrders(res);
-            console.log(res);
-        });
-    }, [token]);
+        getUserData(token).then((res) => {
+            setEmail(res.email);
+            if (isAdmin)
+            {
+                getOrdersData(token).then((res) => {
+                    setOrders(res);
+                    console.log(res);
+                });
+            } else {
+                getUserOrdersData(token, res.email).then((orderRes) => {
+                    setOrders(orderRes);
+                    console.log(orderRes);
+                });
+            }
+        })
+    }, [token, isAdmin]);
 
     return (
         <React.Fragment>
@@ -59,7 +80,7 @@ export default function Orders() {
             <Container sx={{ mt: 5 }} component="main" maxWidth="lg">
                 {orders.map((orderData, index) => {
                     return <Card sx={{ minWidth: 275, mt: 3, position: 'relative' }}>
-                        {isAdmin ? <CardHeader
+                        <CardHeader
                             action={
                                 <React.Fragment>
                                 <IconButton onClick={() => {
@@ -78,7 +99,7 @@ export default function Orders() {
                                 </React.Fragment>
                             }
                             sx={{ position: 'absolute', right: 0 }}
-                        /> : null}
+                        />
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                 Заказ
@@ -100,12 +121,19 @@ export default function Orders() {
                         </CardContent>
                     </Card>
                 })}
-                {isAdmin ? <Fab onClick={() => {
+                {orders.length === 0 ? <Card sx={{ minWidth: 275, mt: 3, position: 'relative' }}>
+                    <CardContent>
+                        <Typography variant="h6" component="div">
+                            Нет заказов
+                        </Typography>
+                    </CardContent>
+                </Card> : null}
+                <Fab onClick={() => {
                     setCreateIsEdit(false);
                     setCreateDialogOpen(true);
                 }} sx={{ mt: 3, mb: 3 }} color="primary" aria-label="add">
                     <AddIcon />
-                </Fab> : null}
+                </Fab>
                 <OrderDialog
                     open={createDialogOpen}
                     onClose={() => setCreateDialogOpen(false)}

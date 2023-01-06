@@ -1,4 +1,4 @@
-const server = "http://192.168.1.101:8080/"
+const server = "http://localhost:8080/"
 
 async function loginUser(credentials) {
     return fetch(server + 'api/auth/signin', {
@@ -145,6 +145,17 @@ async function getOrdersData(token) {
         .then(data => data.json())
 }
 
+async function getUserOrdersData(token, email) {
+    return fetch(server + 'api/orders/findMyOrders/' + email, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization" : `Bearer ${token}`
+        }
+    })
+        .then(data => data.json())
+}
+
 async function createOrder(orderData, token) {
     return fetch(server + 'api/orders/add', {
         method: 'POST',
@@ -183,5 +194,5 @@ export {
     loginUser, signupUser, getUserData, getUsersData,
     getEventsData, createEvent, updateEvent, deleteEvent, 
     getActorsData, createActor, updateActor, deleteActor,
-    getOrdersData, createOrder, updateOrder, deleteOrder 
+    getOrdersData, getUserOrdersData, createOrder, updateOrder, deleteOrder 
 }

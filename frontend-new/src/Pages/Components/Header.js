@@ -17,9 +17,9 @@ import { Link } from 'react-router-dom';
 import useToken from '../../useToken';
 import { getUserData } from '../../api';
 
-const pagesUser = ['Выступления'];
-const pagesAdmin = ['Выступления', 'Актеры', 'Заказы', 'Клиенты'];
-const pagesLinks = ['/events', '/actors', '/orders', '/clients'];
+const pagesUser = ['Выступления', 'Заказы'];
+const pagesAdmin = ['Выступления', 'Заказы', 'Актеры', 'Клиенты'];
+const pagesLinks = ['/events', '/orders', '/actors', '/clients'];
 
 const settings = ['Профиль', 'Выйти'];
 const settingsLinks = ['/', '/logout']
