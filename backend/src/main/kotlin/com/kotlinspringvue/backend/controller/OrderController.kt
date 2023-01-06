@@ -8,6 +8,7 @@ import com.kotlinspringvue.backend.repository.OrderRepository
 import com.kotlinspringvue.backend.repository.UserRepository
 import com.kotlinspringvue.backend.web.response.ResponseMessage
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -29,6 +30,11 @@ class OrderController {
     @GetMapping("/allOrders")
     fun getOrders() = orderRepository.findAll()
 
+    @GetMapping("/findMyOrders/{customerEmail}")
+    fun getMyOrders(@PathVariable("customerEmail")customerEmail : String) : List <Order> {
+        return orderRepository.findByCustomerEmail(customerEmail)
+    }
+
     @PostMapping("/add")
     fun addNewOrder(@Valid @RequestBody newOrder: NewOrder): ResponseEntity<*> {
 
@@ -39,7 +45,8 @@ class OrderController {
             newOrder.description!!,
             newOrder.customerFulLName!!,
             newOrder.date!!,
-            newOrder.placeNumber
+            newOrder.placeNumber,
+            newOrder.customerEmail
         )
         orderRepository.save(order)
 
@@ -64,6 +71,7 @@ class OrderController {
         order.placeNumber = newOrder.placeNumber
         return orderRepository.save(order)
     }
+
 
 
 }

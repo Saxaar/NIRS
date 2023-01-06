@@ -25,7 +25,10 @@ data class Order (
     @Column(name = "place_number")
     var placeNumber:Integer? = null,
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column(name= "customer_email")
+    var customerEmail: String? = null,
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_orders",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],

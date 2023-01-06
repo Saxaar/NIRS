@@ -26,17 +26,6 @@ class PerfomanceController {
     @GetMapping("/perfomances")
     fun getPerfomances() = perfomanceRepository.findAll()
 
-//    @PostMapping("/update")
-//    fun updateById(@Valid @RequestBody newPerfomanceRequest: NewPerfomance, ): ResponseEntity<*> {
-//
-//        return perfomanceRepository.findById().map {
-//            perfomanceRepository.save(it)
-//            ResponseEntity<Void>(HttpStatus.OK)
-//        }.orElse(ResponseEntity.notFound().build())
-//
-//        return ResponseEntity(ResponseMessage("Prefomance updated"),HttpStatus.OK)
-//    }
-
     @DeleteMapping("/delete/{id}")
     fun deleteById(@PathVariable(value = "id") id: Long): ResponseEntity<Void> {
         return perfomanceRepository.findById(id).map {
@@ -51,6 +40,18 @@ class PerfomanceController {
         perfomance.managerFullName = newPerfomanceRequest.managerFullName
         perfomance.phoneNumber = newPerfomanceRequest.phoneNumber
         perfomance.name = newPerfomanceRequest.name
+        perfomance.evaluation = newPerfomanceRequest.evaluation
+        return perfomanceRepository.save(perfomance)
+    }
+
+    @PutMapping("/addEvaluation/{id}")
+    fun addEvaluation(@Valid @RequestBody newPerfomanceRequest: NewPerfomance, @PathVariable(value = "id") id: Long) : Perfomance {
+        val perfomance = perfomanceRepository.findById(id).get()
+        perfomance.date = newPerfomanceRequest.date
+        perfomance.managerFullName = newPerfomanceRequest.managerFullName
+        perfomance.phoneNumber = newPerfomanceRequest.phoneNumber
+        perfomance.name = newPerfomanceRequest.name
+        perfomance.evaluation = newPerfomanceRequest.evaluation
         return perfomanceRepository.save(perfomance)
     }
 
@@ -78,6 +79,7 @@ class PerfomanceController {
 
         return ResponseEntity(ResponseMessage("Perfomance added"),HttpStatus.OK)
     }
+
 
 //    private fun perfomanceExists(name: String): Boolean {
 //        return perfomanceRepository.findByName(name).isPresent

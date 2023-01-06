@@ -21,6 +21,9 @@ data class Perfomance (
     @Column(name="manager_full_name")
     var managerFullName: String?=null,
 
+    @Column(name = "evaluation")
+    var evaluation: Integer? = null
+
 
 )
 

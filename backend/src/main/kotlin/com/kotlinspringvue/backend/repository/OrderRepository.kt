@@ -18,9 +18,10 @@ interface OrderRepository: JpaRepository<Order, Long> {
 
     fun findByCustomerFullName(@Param ("customerFullName") customerFullName: String) : Optional<Order>
 
+    fun findByCustomerEmail(@Param("customerEmail")customerEmail : String) : List <Order>
+
     @Transactional
     fun deleteByCustomerFullName(@Param("customerFullName") username: String)
-
 
 
 }

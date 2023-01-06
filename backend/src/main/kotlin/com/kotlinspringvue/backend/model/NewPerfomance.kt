@@ -17,13 +17,17 @@ class NewPerfomance : Serializable {
     @JsonProperty("managerFullName")
     var managerFullName: String? = null
 
+    @JsonProperty("Evaluation")
+    var evaluation: Integer? = null
+
     constructor() {}
 
-    constructor(name: String?, date: String?, phoneNumber: String?, managerFullName: String?) {
+    constructor(name: String?, date: String?, phoneNumber: String?, managerFullName: String?, evaluation:Integer?) {
         this.name = name
         this.date = date
         this.phoneNumber = phoneNumber
         this.managerFullName = managerFullName
+        this.evaluation = evaluation
     }
 
 }

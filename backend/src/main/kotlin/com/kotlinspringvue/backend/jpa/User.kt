@@ -35,4 +35,12 @@ data class User (
                 inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
         )
         var roles: Collection<Role>? = null
+
+//        @ManyToMany(fetch = FetchType.EAGER)
+//        @JoinTable(
+//                name = "users_orders",
+//                joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
+//                inverseJoinColumns = [JoinColumn(name = "order_id", referencedColumnName = "id")]
+//        )
+//        var orders: Collection<Order>? = null
 )
